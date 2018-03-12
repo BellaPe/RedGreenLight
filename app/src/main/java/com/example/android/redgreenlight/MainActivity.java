@@ -7,8 +7,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class MainActivity extends AppCompatActivity {
     private int counter = 0;
+    final Timer timer = new Timer();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,11 +37,16 @@ public class MainActivity extends AppCompatActivity {
 
     }
     public void onClickButt(View view) {
+      //  if(timer!=null){
+       //    timer.cancel();
+       //     timer = null;
+     //   }
         Resources resources = getResources();
         TextView t1 = (TextView) findViewById(R.id.t1);
         TextView t2 = (TextView) findViewById(R.id.t2);
         TextView t3 = (TextView) findViewById(R.id.t3);
         TextView t4 = (TextView) findViewById(R.id.t4);
+        Button butt2 = (Button) findViewById(R.id.butt2);
         if (counter % 2 == 0) {
             t1.setBackgroundResource(R.drawable.circle_red);
             t2.setBackgroundResource(R.drawable.circleredob);
@@ -50,25 +59,53 @@ public class MainActivity extends AppCompatActivity {
             t4.setBackgroundResource(R.drawable.circle);
         }
         counter++;
+        butt2.setEnabled(true);
+
+
     }
 
     public void onClickButt2(View view) {
+        Button butt2 = (Button) findViewById(R.id.butt2);
+        timer.scheduleAtFixedRate(new Tasknew(),500,1000);
+        butt2.setEnabled(false);
+    }
+
+
+    public void onClickButt3(View view) {
+  //      if(timer!=null){
+        //    timer.cancel();
+       //     timer = null;
+      //  }
+        Button butt2 = (Button) findViewById(R.id.butt2);
         TextView t1 = (TextView) findViewById(R.id.t1);
         try {
             WallpaperChanger.changeWallpaper();
+            butt2.setEnabled(true);
         }
         catch (Exception ex) {
             t1.setText("something happend");
         }
     }
 
-    public void onClickButt3(View view) {
-        TextView t1 = (TextView) findViewById(R.id.t1);
-        try {
-            WallpaperChanger.changeWallpaper();
-        }
-        catch (Exception ex) {
-            t1.setText("something happend");
+    class Tasknew extends TimerTask {
+        public void run() {
+            Resources resources = getResources();
+            TextView t1 = (TextView) findViewById(R.id.t1);
+            TextView t2 = (TextView) findViewById(R.id.t2);
+            TextView t3 = (TextView) findViewById(R.id.t3);
+            TextView t4 = (TextView) findViewById(R.id.t4);
+            if (counter % 2 == 0) {
+                t1.setBackgroundResource(R.drawable.circle_red);
+                t2.setBackgroundResource(R.drawable.circleredob);
+                t3.setBackgroundResource(R.drawable.circle);
+                t4.setBackgroundResource(R.drawable.circlegreenon);
+            } else {
+                t1.setBackgroundResource(R.drawable.circleredob);
+                t2.setBackgroundResource(R.drawable.circle_red);
+                t3.setBackgroundResource(R.drawable.circlegreenon);
+                t4.setBackgroundResource(R.drawable.circle);
+            }
+            counter++;
         }
     }
 }
